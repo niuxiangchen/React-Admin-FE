@@ -1,18 +1,41 @@
 import React, { Component } from "react";
 import "./login.less";
 import logo from "./images/logo.png";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
+import { reqLogin, reqAddUser } from "../../api/index";
+
 // 登录的路由组件
 class login extends Component {
   // 函数里接收一个参数，该参数就是返回的表单值
-  onFinish = (values) => {
+  onFinish = async (values) => {
     const { username, password } = values;
-    console.log("====================================");
-    console.log("校验成功！");
-    console.log("====================================");
+    // reqLogin(username, password)
+    //   .then((response) => {
+    //     console.log("====================================");
+    //     console.log("成功了", response.data);
+    //     console.log("====================================");
+    //   })
+    //   .catch((error) => {
+    //     console.log("====================================");
+    //     console.log("失败了", error);
+    //     console.log("====================================");
+    //   });
+
+    const response = await reqLogin(username, password);
+    const result = response.data;
+    if (result.status === 0) {
+      //登录成功
+      message.success("登录成功");
+      // 跳转到后台管理界面(不需要再回退到登录界面)
+      this.props.history.replace(`/`);
+    } else {
+      //登录失败
+      // 提示错误信息
+      message.error(result.msg);
+    }
   };
   onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log("检验失败", errorInfo);
   };
   // 对密码进行自定义验证
   validatePwd = (rule, value) => {

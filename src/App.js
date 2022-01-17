@@ -11,7 +11,7 @@ export default class App extends Component {
         <Routes>
           {/* 只匹配其中一个 */}
           <Route path="/login" element={<Login />}></Route>
-          <Route path="/admin" element={<Admin />}></Route>
+          <Route path="/" element={<Admin />}></Route>
         </Routes>
       </BrowserRouter>
     );

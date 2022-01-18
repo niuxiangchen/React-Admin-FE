@@ -1,33 +1,27 @@
 import React, { Component } from "react";
 import "./login.less";
-import logo from "./images/logo.png";
+import logo from "../../assets/images/logo.png";
 import { Form, Input, Button, message } from "antd";
 import { reqLogin, reqAddUser } from "../../api/index";
-
+import memoryUtils from "../../utils/memoryUtils";
+import storageUtils from "../../utils/storageUtils";
+import { Redirect } from "react-router-dom";
 // 登录的路由组件
 class login extends Component {
   // 函数里接收一个参数，该参数就是返回的表单值
   onFinish = async (values) => {
     const { username, password } = values;
-    // reqLogin(username, password)
-    //   .then((response) => {
-    //     console.log("====================================");
-    //     console.log("成功了", response.data);
-    //     console.log("====================================");
-    //   })
-    //   .catch((error) => {
-    //     console.log("====================================");
-    //     console.log("失败了", error);
-    //     console.log("====================================");
-    //   });
-
     const response = await reqLogin(username, password);
-    const result = response.data;
+    const result = response;
     if (result.status === 0) {
       //登录成功
       message.success("登录成功");
+      // 保存user
+      const user = result.data;
+      memoryUtils.user = user; // 保存在内存中
+      storageUtils.saveUser(user); // 保存到local中
       // 跳转到后台管理界面(不需要再回退到登录界面)
-      this.props.history.replace(`/`);
+      this.props.history.replace("/");
     } else {
       //登录失败
       // 提示错误信息
@@ -52,6 +46,11 @@ class login extends Component {
     }
   };
   render() {
+    // 如果用户已经登录，自动跳转到管理界面
+    const user = memoryUtils.user;
+    if (user && user._id) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="login">
         <header className="login-header">

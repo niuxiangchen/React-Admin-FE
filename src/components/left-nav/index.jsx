@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.less";
 import logo from "../../assets/images/logo.png";
 import { Link, withRouter } from "react-router-dom";
-import { Menu, Button } from "antd";
+import { Menu } from "antd";
 
 import menuList from "../../config/menuConfig";
 const { SubMenu } = Menu;

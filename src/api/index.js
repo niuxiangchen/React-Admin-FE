@@ -22,7 +22,8 @@ export const reqWeather = (city) => {
       // 如果成功了
       if (!err && data.status === "1") {
         // 取出需要的数据
-        const { weather } = data.lives[0].weather;
+        const { weather } = data.lives[0];
+        console.log(weather);
         resolve({ weather });
       } else {
         // 如果失败了
@@ -31,4 +32,3 @@ export const reqWeather = (city) => {
     });
   });
 };
-reqWeather(110101);

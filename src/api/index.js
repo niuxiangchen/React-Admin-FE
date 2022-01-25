@@ -21,7 +21,7 @@ export const reqCategorys = (parentId) =>
 export const reqAddCategorys = (categoryName, parentId) =>
   ajax(BASE + "/manage/category/add", { categoryName, parentId }, "POST");
 // 更新分类
-export const reqUpdateCategorys = ({ categoryId, categoryName }) =>
+export const reqUpdateCategorys = (categoryId, categoryName) =>
   ajax(BASE + "/manage/category/update", { categoryId, categoryName }, "POST");
 // json请求的接口请求函数
 export const reqWeather = (city) => {

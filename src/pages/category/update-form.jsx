@@ -18,13 +18,13 @@ class UpdateForm extends Component {
     const { categoryName } = this.props;
     return (
       <Form ref={this.formRef}>
-        <Item>
-          <Input
-            name="categoryName"
-            defaultValue={categoryName}
-            rules={[{ required: true, message: "分类名称必须输入" }]}
-          />
-        </Item>
+        <Form.Item
+          name="categoryName"
+          initialValue={categoryName}
+          rules={[{ required: true, message: "分类名称必须输入" }]}
+        >
+          <Input placeholder="请输入分类名称" />
+        </Form.Item>
       </Form>
     );
   }

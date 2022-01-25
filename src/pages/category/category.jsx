@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { Card, Table, Button, message, Modal } from "antd";
 import { PlusOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import LinkButton from "../../components/link-button";
-import { reqCategorys, reqUpdateCategorys } from "../../api/index";
+import {
+  reqCategorys,
+  reqUpdateCategorys,
+  reqAddCategorys,
+} from "../../api/index";
 import AddForm from "./add-form";
 import UpdateForm from "./update-form";
 class Category extends Component {
@@ -111,13 +115,7 @@ class Category extends Component {
     this.setState({ showStatus: 2 });
   };
   // 添加分类
-  addCategory = () => {
-    console.log("====================================");
-    console.log("add");
-    console.log("====================================");
-  };
-  // 更新分类
-  updateCategory = async () => {
+  addCategory = async () => {
     this.form
       .validateFields()
       .then(async (values) => {
@@ -125,17 +123,48 @@ class Category extends Component {
         this.setState({
           showStatus: 0,
         });
-        // 2.发请求更新
-        const parentId = this.category._id;
-        const { categoryName } = values;
-        //this.form.resetFields();
-
-        const result = await reqUpdateCategorys({ parentId, categoryName });
+        // 2.收集数据，发送请求
+        const { parentId, categoryName } = values;
+        // console.log(parentId);
+        // console.log(categoryName);
+        const result = await reqAddCategorys(categoryName, parentId);
         if (result.status === 0) {
-          console.log("====================================");
-          console.log("修改成功");
-          console.log("====================================");
           // 3.重新显示列表
+          if (parentId === this.state.parentId) {
+            // 如果添加的是当前分类下的列表，则刷新，其他分类的不刷新
+            this.getCategorys();
+          } else if (parentId === "0") {
+            // 在二级分类列表下添加一级分类，重新获取一级分类列表，但不需要显示
+            this.getCategorys("0");
+          }
+        }
+      })
+      .catch((err) => {
+        //console.log(err);
+        message.info("请输入分类名称");
+      });
+  };
+  // 更新分类
+  updateCategory = () => {
+    //进行表单验证，只有通过了才处理
+    this.form
+      .validateFields()
+      .then(async (values) => {
+        //1.隐藏确认框
+        this.setState({
+          showStatus: 0,
+        });
+
+        //准备数据
+        const categoryId = this.category._id;
+        // const categoryName = this.form.getFieldValue('categoryName')
+        const { categoryName } = values;
+        //清除输入数据
+        this.form.resetFields();
+        //2.发送请求更新分类
+        const result = await reqUpdateCategorys(categoryId, categoryName);
+        if (result.status === 0) {
+          //3.重新显示列表
           this.getCategorys();
         }
       })
@@ -198,7 +227,13 @@ class Category extends Component {
           destroyOnClose={true}
           onCancel={this.handleCancel}
         >
-          <AddForm />
+          <AddForm
+            categorys={categorys}
+            parentId={parentId}
+            setForm={(form) => {
+              this.form = form;
+            }}
+          />
         </Modal>
 
         <Modal

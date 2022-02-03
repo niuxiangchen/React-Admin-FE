@@ -60,6 +60,9 @@ class ProductDetail extends Component {
         <span>商品详情</span>
       </span>
     );
+    console.log("====================================");
+    console.log(imgs);
+    console.log("====================================");
     return (
       <Card title={title} className="product-detail">
         <List>

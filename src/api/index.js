@@ -45,6 +45,17 @@ export const reqProducts = (pageNum, pageSize) =>
 // 更新商品的状态(上架/下架)
 export const reqUpdateStatus = (productId, status) =>
   ajax(BASE + "/manage/product/updateStatus", { productId, status }, "POST");
+// 删除图片
+export const reqDeleteImg = (name) =>
+  ajax(BASE + "/manage/img/delete", { name }, "POST");
+// 添加/更新 商品
+export const reqAddOrUpdateProduct = (product) =>
+  ajax(
+    BASE + "/manage/product/" + (product._id ? "update" : "add"),
+    product,
+    "POST"
+  );
+
 // json请求的接口请求函数
 export const reqWeather = (city) => {
   return new Promise((resolve, reject) => {

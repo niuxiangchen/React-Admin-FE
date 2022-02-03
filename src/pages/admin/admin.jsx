@@ -25,7 +25,7 @@ class admin extends Component {
     }
     // 走到这一步说明已经登陆了
     return (
-      <Layout style={{ height: "100%" }}>
+      <Layout style={{ minHeight: "100%" }}>
         <Sider>
           <LeftNav />
         </Sider>

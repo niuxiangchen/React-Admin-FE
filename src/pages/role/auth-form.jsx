@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Form, Tree, Input } from "antd";
 import menuList from "../../config/menuConfig";
 import PropTypes from "prop-types";
 const Item = Form.Item;
 const { TreeNode } = Tree;
 // 添加角色的form组件
-class AuthForm extends Component {
+class AuthForm extends PureComponent {
   formRef = React.createRef();
   static propTypes = {
     role: PropTypes.object,
@@ -44,12 +44,6 @@ class AuthForm extends Component {
       );
       return pre;
     }, []);
-  };
-
-  // 选中某个node时的回调
-  onCheck = (checkedKeys) => {
-    console.log("onCheck", checkedKeys);
-    this.setState({ checkedKeys });
   };
 
   componentWillMount() {

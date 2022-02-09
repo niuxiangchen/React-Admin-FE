@@ -6,14 +6,15 @@
 import ajax from "./ajax";
 import jsonp from "jsonp";
 import { message } from "antd";
+
 const BASE = "";
 
 // 登录
 export const reqLogin = (username, password) =>
   ajax(BASE + "/login", { username, password }, "POST");
-// 添加用户
-export const reqAddUser = (user) =>
-  ajax(BASE + "/manage/user/add", user, "POST");
+// // 添加用户
+// export const reqAddUser = (user) =>
+//   ajax(BASE + "/manage/user/add", user, "POST");
 // 获取一级/二级分类的列表
 export const reqCategorys = (parentId) =>
   ajax(BASE + "/manage/category/list", { parentId });
@@ -63,6 +64,14 @@ export const reqAddRole = (roleName) =>
 // 更新角色
 export const reqUpdateRole = (role) =>
   ajax(BASE + "./manage/role/update", role, "POST");
+//获取所有用户的列表
+export const reqUsers = () => ajax(BASE + "./manage/user/list");
+//删除指定用户
+export const reqDeleteUser = (userId) =>
+  ajax(BASE + "./manage/user/delete", { userId }, "POST");
+// 添加或更新用户
+export const reqAddOrUpdateUser = (user) =>
+  ajax("/manage/user/" + (user._id ? "update" : "add"), user, "POST");
 // json请求的接口请求函数
 export const reqWeather = (city) => {
   return new Promise((resolve, reject) => {

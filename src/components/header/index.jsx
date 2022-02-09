@@ -74,7 +74,7 @@ class Header extends Component {
   }
 
   render() {
-    const { currentTime, dayPictureUrl, weather } = this.state;
+    const { currentTime, weather } = this.state;
     const username = memoryUtils.user.username;
     // 得到当前需要显得title
     const title = this.getTitle();

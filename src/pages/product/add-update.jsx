@@ -213,7 +213,7 @@ class ProductAddUpdate extends Component {
             name="name"
             rules={[{ required: true, message: "必须输入商品名称" }]}
           >
-            <Input placeholder="商品名称"></Input>
+            <Input placeholder="商品名称"/>
           </Item>
           <Item
             label="商品描述"
@@ -236,7 +236,7 @@ class ProductAddUpdate extends Component {
               },
             ]}
           >
-            <Input type="number" placeholder="商品价格" addonAfter="元"></Input>
+            <Input type="number" placeholder="商品价格" addonAfter="元"/>
           </Item>
           <Item
             label="商品分类"

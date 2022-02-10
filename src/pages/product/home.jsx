@@ -171,7 +171,6 @@ class ProductHome extends Component {
             onChange: this.getProducts,
           }}
         />
-        ;
       </Card>
     );
   }

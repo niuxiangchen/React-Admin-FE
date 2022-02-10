@@ -5,9 +5,27 @@ import { Link, withRouter } from "react-router-dom";
 import { Menu } from "antd";
 
 import menuList from "../../config/menuConfig";
+import memoryUtils from "../../utils/memoryUtils";
 const { SubMenu } = Menu;
 // 左侧导航的组件
 class LeftNav extends Component {
+  // 判断当前登录用户对item是否有权限
+  hasAutu = (item) => {
+    const { key, isPublic } = item;
+    const menus = memoryUtils.user.role.menus;
+    const username = memoryUtils.user.username;
+    console.log(memoryUtils.user, "memoryUtils.user");
+    //  1.如果当前用户是admin
+    //  2.如果当前item是公开的
+    //  3.当前用户有此item的权限：key有没有在menus中
+    if (username === "admin" || isPublic || menus.indexOf(key) !== -1) {
+      return true;
+    } else if (item.children) {
+      //  4.如果当前用户有此item 的某个子item的权限
+      return !!item.children.find((child) => menus.indexOf(child.key) !== -1);
+    }
+    return false;
+  };
   // 根据menu的数据数组生成对应的标签数组
   // 使用map() + 递归调用
 
@@ -15,36 +33,39 @@ class LeftNav extends Component {
   getMenuNodes = (menuList) => {
     const path = this.props.location.pathname;
     return menuList.map((item) => {
-      if (!item.children) {
-        return (
-          <Menu.Item key={item.key} icon={item.icon}>
-            <Link to={item.key}>
-              <span>{item.title}</span>
-            </Link>
-          </Menu.Item>
-        );
-      } else {
-        // 查找一个与当前请求路径匹配的子Item
-        const cItem = item.children.find(
-          (cItem) => path.indexOf(cItem.key) === 0
-        );
-        // 如果存在, 说明当前item的子列表需要打开
-        if (cItem) {
-          this.openKey = item.key;
-        }
-        return (
-          <SubMenu
-            key={item.key}
-            icon={item.icon}
-            title={
-              <span>
+      // 如果当前用户有item对应的权限，才需要显示对应的菜单项
+      if (this.hasAutu(item)) {
+        if (!item.children) {
+          return (
+            <Menu.Item key={item.key} icon={item.icon}>
+              <Link to={item.key}>
                 <span>{item.title}</span>
-              </span>
-            }
-          >
-            {this.getMenuNodes(item.children)}
-          </SubMenu>
-        );
+              </Link>
+            </Menu.Item>
+          );
+        } else {
+          // 查找一个与当前请求路径匹配的子Item
+          const cItem = item.children.find(
+            (cItem) => path.indexOf(cItem.key) === 0
+          );
+          // 如果存在, 说明当前item的子列表需要打开
+          if (cItem) {
+            this.openKey = item.key;
+          }
+          return (
+            <SubMenu
+              key={item.key}
+              icon={item.icon}
+              title={
+                <span>
+                  <span>{item.title}</span>
+                </span>
+              }
+            >
+              {this.getMenuNodes(item.children)}
+            </SubMenu>
+          );
+        }
       }
     });
   };

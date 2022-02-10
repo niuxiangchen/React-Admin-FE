@@ -80,9 +80,6 @@ class Role extends Component {
         const role = result.data;
         // 更新roles状态
         const roles = this.state.roles;
-        console.log("====================================");
-        console.log(roles);
-        console.log("====================================");
         this.setState({
           roles: [role, ...roles],
         });
@@ -108,9 +105,6 @@ class Role extends Component {
 
     // 请求更新
     const result = await reqUpdateRole(role);
-    console.log("====================================");
-    console.log(result);
-    console.log("====================================");
     if (result.status === 0) {
       // this.getRoles()
       // 如果当前更新的是自己角色的权限, 强制退出
@@ -166,7 +160,13 @@ class Role extends Component {
           dataSource={roles}
           columns={this.columns}
           pagination={{ defaultPageSize: PAGE_SIZE }}
-          rowSelection={{ type: "radio", selectedRowKeys: [role._id] }}
+          rowSelection={{
+            type: "radio",
+            selectedRowKeys: [role._id],
+            onSelect: (role) => {
+              this.setState({ role });
+            },
+          }}
           onRow={this.onRow}
         />
         <Modal

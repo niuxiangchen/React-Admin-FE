@@ -2,32 +2,45 @@ import React, { Component } from "react";
 import "./login.less";
 import logo from "../../assets/images/logo.png";
 import { Form, Input, Button, message } from "antd";
-import { reqLogin, reqAddUser } from "../../api/index";
-import memoryUtils from "../../utils/memoryUtils";
-import storageUtils from "../../utils/storageUtils";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../redux/action";
+
 // 登录的路由组件
-class login extends Component {
+class Login extends Component {
   // 函数里接收一个参数，该参数就是返回的表单值
+  // onFinish = async (values) => {
+  //   const { username, password } = values;
+  //   //调用分发异步action的函数=> 发登录的异步请求，有了结果后更新状态
+  //   this.props.login(username, password);
+  //   // const response = await reqLogin(username, password);
+  //   // const result = response;
+  //   // if (result.status === 0) {
+  //   //   //登录成功
+  //   //   message.success("登录成功");
+  //   //   // 保存user
+  //   //   const user = result.data;
+  //   //   memoryUtils.user = user; // 保存在内存中
+  //   //   storageUtils.saveUser(user); // 保存到local中
+  //   //   // 跳转到后台管理界面(不需要再回退到登录界面)
+  //   //   this.props.history.replace("/");
+  //   // } else {
+  //   //   //登录失败
+  //   //   // 提示错误信息
+  //   //   message.error(result.msg);
+  //   // }
+  // };
+
   onFinish = async (values) => {
     const { username, password } = values;
-    const response = await reqLogin(username, password);
-    const result = response;
-    if (result.status === 0) {
-      //登录成功
-      message.success("登录成功");
-      // 保存user
-      const user = result.data;
-      memoryUtils.user = user; // 保存在内存中
-      storageUtils.saveUser(user); // 保存到local中
-      // 跳转到后台管理界面(不需要再回退到登录界面)
-      this.props.history.replace("/");
-    } else {
-      //登录失败
-      // 提示错误信息
-      message.error(result.msg);
+    try {
+      //调用异步请求，
+      this.props.login(username, password);
+    } catch (error) {
+      console.log("请求出错", error);
     }
   };
+
   onFinishFailed = (errorInfo) => {
     console.log("检验失败", errorInfo);
   };
@@ -46,11 +59,12 @@ class login extends Component {
     }
   };
   render() {
-    // 如果用户已经登录，自动跳转到管理界面
-    const user = memoryUtils.user;
+    // 如果用户已经登陆, 自动跳转到管理界面
+    const user = this.props.user;
     if (user && user._id) {
-      return <Redirect to="/" />;
+      return <Redirect to="/home" />;
     }
+    const errorMsg = this.props.user.errorMsg;
     return (
       <div className="login">
         <header className="login-header">
@@ -58,6 +72,9 @@ class login extends Component {
           <h1>React项目：后台管理系统</h1>
         </header>
         <section className="login-content">
+          <div className={errorMsg ? "error-msg show" : "error-msg"}>
+            {errorMsg}
+          </div>
           <h2>用户登录</h2>
           <Form
             name="basic"
@@ -137,4 +154,4 @@ class login extends Component {
   }
 }
 
-export default login;
+export default connect((state) => ({ user: state.user }), { login })(Login);

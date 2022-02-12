@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import "./index.less";
 import moment from "moment";
-import memoryUtils from "../../utils/memoryUtils";
-import storageUtils from "../../utils/storageUtils";
 import { reqWeather } from "../../api";
 import { withRouter } from "react-router-dom";
 import menuList from "../../config/menuConfig";
 import { Modal } from "antd";
 import LinkButton from "../link-button";
+import { connect } from "react-redux";
+import { logout } from "../../redux/action";
+
 class Header extends Component {
   state = {
     currentTime: moment().format("YYYY-MM-DD hh:mm:ss"),
@@ -26,33 +27,36 @@ class Header extends Component {
     const { weather } = await reqWeather(110101);
     this.setState({ weather });
   };
-  getTitle = () => {
-    // 得到当前请求路径
-    const path = this.props.location.pathname;
-    let title;
-    menuList.forEach((item) => {
-      if (item.key === path) {
-        // 如果当前item对象的key与path一样，item的title就是需要显示的title
-        title = item.title;
-      } else if (item.children) {
-        // 在所有子Item中查找匹配的
-        const cItem = item.children.find((cItem) => cItem.key === path);
-        if (cItem) {
-          title = cItem.title;
-        }
-      }
-    });
-    return title;
-  };
+  // getTitle = () => {
+  //   // 得到当前请求路径
+  //   const path = this.props.location.pathname;
+  //   let title;
+  //   menuList.forEach((item) => {
+  //     if (item.key === path) {
+  //       // 如果当前item对象的key与path一样，item的title就是需要显示的title
+  //       title = item.title;
+  //     } else if (item.children) {
+  //       // 在所有子Item中查找匹配的
+  //       const cItem = item.children.find((cItem) => cItem.key === path);
+  //       if (cItem) {
+  //         title = cItem.title;
+  //       }
+  //     }
+  //   });
+  //   return title;
+  // };
+  //退出登录
   logOut = () => {
     // 显示确认框
     let that = this;
     Modal.confirm({
       content: "确定退出吗？",
-      onOk() {
+      onOk: () => {
         //删除保存的user数据
-        storageUtils.removeUser();
-        memoryUtils.user = {};
+        this.props.logout();
+        console.log("登出");
+        // storageUtils.removeUser();
+        // memoryUtils.user = {};
         //跳转到login页面
         that.props.history.replace("/login");
       },
@@ -75,9 +79,10 @@ class Header extends Component {
 
   render() {
     const { currentTime, weather } = this.state;
-    const username = memoryUtils.user.username;
+    const username = this.props.user.username;
     // 得到当前需要显得title
-    const title = this.getTitle();
+    // const title = this.getTitle();
+    const title = this.props.headTitle;
     return (
       <div className="header">
         <div className="header-top">
@@ -99,4 +104,7 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+export default connect(
+  (state) => ({ headTitle: state.headTitle, user: state.user }),
+  { logout }
+)(withRouter(Header));

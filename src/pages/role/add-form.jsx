@@ -6,15 +6,12 @@ const Item = Form.Item;
 class AddForm extends Component {
   formRef = React.createRef();
   static propTypes = {
-    roles: PropTypes.array.isRequired, // 一级角色的数组
-    parentId: PropTypes.string.isRequired, // 父角色的ID
     setForm: PropTypes.func,
   };
   componentDidMount() {
     this.props.setForm(this.formRef.current);
   }
   render() {
-    const { roles, parentId } = this.props;
     // 指定Item布局的配置对象
     const formItemLayout = {
       labelCol: { span: 4 }, //左侧label宽度

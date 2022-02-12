@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import memoryUtils from "../../utils/memoryUtils";
 import { Layout } from "antd";
 
 import LeftNav from "../../components/left-nav";
@@ -13,11 +12,13 @@ import User from "../user/user";
 import Bar from "../charts/bar";
 import Line from "../charts/line";
 import Pie from "../charts/pie";
+import { connect } from "react-redux";
+import NotFound from "../../not-found/not-found";
 const { Footer, Sider, Content } = Layout;
 // 后台管理的路由组件
 class admin extends Component {
   render() {
-    const user = memoryUtils.user;
+    const user = this.props.user;
     // 如果内存没有存储user ==> 当前没有登陆
     if (!user || !user._id) {
       // 自动跳转到登陆(在render()中)
@@ -43,7 +44,7 @@ class admin extends Component {
               <Route path="/charts/pie" component={Pie} />
               <Route path="/charts/line" component={Line} />
               {/* <Route path="/order" component={Order} /> */}
-              {/* <Route component={NotFound} /> */}
+              <Route component={NotFound} />
             </Switch>
           </Content>
           <Footer style={{ textAlign: "center", color: "#ccc" }}>
@@ -55,4 +56,4 @@ class admin extends Component {
   }
 }
 
-export default admin;
+export default connect((state) => ({ user: state.user }), {})(admin);

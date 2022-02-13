@@ -6,6 +6,6 @@
 
 项目运行截图
 
-![](../screenshot/运行截图0.png)
+![](https://github.com/niuxiangchen/React-online-retailers-client/blob/dev/screenshot/%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE.jpg?raw=true)
 ![](D:\MyProject\React-online-retailers\screenshot\运行截图.jpg)
 ![](D:\MyProject\React-online-retailers\screenshot\运行截图2.jpg)

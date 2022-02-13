@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./index.less";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo.jpg";
 import { Link, withRouter } from "react-router-dom";
 import { Menu } from "antd";
 
@@ -95,7 +95,7 @@ class LeftNav extends Component {
       <div className="left-nav">
         <Link to="/" className="left-nav-header">
           <img src={logo} alt="logo" />
-          <h1>硅谷后台</h1>
+          <h1>后台管理</h1>
         </Link>
         <Menu
           mode="inline"

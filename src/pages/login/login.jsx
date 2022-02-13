@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./login.less";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo.jpg";
 import { Form, Input, Button, message } from "antd";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";

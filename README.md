@@ -6,6 +6,6 @@
 
 项目运行截图
 
-![](..\screenshot\运行截图0.png)
+![](../screenshot/运行截图0.png)
 ![](D:\MyProject\React-online-retailers\screenshot\运行截图.jpg)
 ![](D:\MyProject\React-online-retailers\screenshot\运行截图2.jpg)

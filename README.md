@@ -6,6 +6,6 @@
 
 项目运行截图
 
-![image](D:\MyProject\React-online-retailers\screenshot\运行截图0.png)
-![image](D:\MyProject\React-online-retailers\screenshot\运行截图.jpg)
-![image](D:\MyProject\React-online-retailers\screenshot\运行截图2.jpg)
+![image](https://github.com/niuxiangchen/React-online-retailers-client/blob/main/screenshot/%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE.jpg)
+![image](https://github.com/niuxiangchen/React-online-retailers-client/blob/main/screenshot/%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE0.png)
+![image](https://github.com/niuxiangchen/React-online-retailers-client/blob/main/screenshot/%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE2.jpg)
